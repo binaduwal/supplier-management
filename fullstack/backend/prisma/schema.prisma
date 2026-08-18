@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum SupplierStatus {
+  DRAFT
+  PENDING_APPROVAL
+  APPROVED
+  REJECTED
+}
+
+model Supplier {
+  id              String          @id @default(cuid())
+  companyName     String
+  vatId           String          @unique
+  country         String
+  contactEmail    String
+  status          SupplierStatus  @default(DRAFT)
+  createdBy       String
+  createdAt       DateTime        @default(now())
+  approvedBy      String?
+  rejectedBy      String?
+  rejectionReason String?
+}
